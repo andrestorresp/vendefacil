@@ -1,0 +1,13 @@
+<div class="sidebar-container">
+  <div class="brand">
+    <mat-icon class="brand-icon">storefront</mat-icon>
+    <span class="brand-name">VendeFácil</span>
+  </div>
+
+  <nav class="nav-menu">
+    *ngFor="let item of menuItems" [routerLink]="item.route" routerLinkActive="active"
+    class="nav-item">
+    <mat-icon>icono</mat-icon>
+    <span>label</span>
+  </nav>
+</div>
