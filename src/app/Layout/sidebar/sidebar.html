@@ -5,9 +5,14 @@
   </div>
 
   <nav class="nav-menu">
-    *ngFor="let item of menuItems" [routerLink]="item.route" routerLinkActive="active"
-    class="nav-item">
-    <mat-icon>icono</mat-icon>
-    <span>label</span>
+    <a
+      *ngFor="let item of menuItems"
+      [routerLink]="item.route"
+      routerLinkActive="active"
+      class="nav-item"
+    >
+      <mat-icon>{{ item.icon }}</mat-icon>
+      <span>{{ item.label }}</span>
+    </a>
   </nav>
 </div>

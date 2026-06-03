@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, MatIconModule, NgFor],
+  imports: [CommonModule, RouterLink, RouterLinkActive, MatIconModule],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.scss',
 })
@@ -20,5 +20,6 @@ export class Sidebar {
     { label: 'Caja', icon: 'account_balance_wallet', route: '/caja' },
     { label: 'Tasa BCV', icon: 'currency_exchange', route: '/tasa-bcv' },
     { label: 'Reportes', icon: 'bar_chart', route: '/reportes' },
+    { label: 'Compras', icon: 'shopping_cart', route: '/compras' },
   ];
 }
