@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TasaBcv } from './tasa-bcv';
+import { TasaBcvComponent } from './tasa-bcv';
 
 describe('TasaBcv', () => {
-  let component: TasaBcv;
-  let fixture: ComponentFixture<TasaBcv>;
+  let component: TasaBcvComponent;
+  let fixture: ComponentFixture<TasaBcvComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TasaBcv],
+      imports: [TasaBcvComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(TasaBcv);
+    fixture = TestBed.createComponent(TasaBcvComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
