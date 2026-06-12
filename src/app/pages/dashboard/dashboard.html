@@ -1,6 +1,6 @@
 <mat-grid-list cols="2" rowHeight="2:1" gutterSize="24px">
   <mat-grid-tile>
-    <div class="dashboard-card bcv-card">
+    <div class="dashboard-card bcv-card" (click)="navigateTo('/tasa-bcv')">
       <div class="card-icon">
         <mat-icon>currency_exchange</mat-icon>
       </div>
@@ -10,9 +10,9 @@
       </div>
     </div>
   </mat-grid-tile>
-  
+
   <mat-grid-tile>
-    <div class="dashboard-card suppliers-card">
+    <div class="dashboard-card suppliers-card" (click)="navigateTo('/proveedores')">
       <div class="card-icon">
         <mat-icon>local_shipping</mat-icon>
       </div>
@@ -22,9 +22,9 @@
       </div>
     </div>
   </mat-grid-tile>
-  
+
   <mat-grid-tile>
-    <div class="dashboard-card sales-card">
+    <div class="dashboard-card sales-card" (click)="navigateTo('/ventas')">
       <div class="card-icon">
         <mat-icon>point_of_sale</mat-icon>
       </div>
@@ -34,14 +34,14 @@
       </div>
     </div>
   </mat-grid-tile>
-  
+
   <mat-grid-tile>
-    <div class="dashboard-card inventory-card">
+    <div class="dashboard-card inventory-card" (click)="navigateTo('/productos')">
       <div class="card-icon">
         <mat-icon>inventory_2</mat-icon>
       </div>
       <div class="card-content">
-        <h3>Inventario</h3>
+        <h3>Productos</h3>
         <p class="card-desc">Controla existencias de productos y alertas de stock bajo.</p>
       </div>
     </div>
