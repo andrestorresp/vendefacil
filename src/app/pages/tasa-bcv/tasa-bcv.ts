@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, computed, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -15,11 +15,15 @@ import { TasaBcv } from '../../core/models/tasa-bcv.model';
   styleUrl: './tasa-bcv.scss',
 })
 export class TasaBcvComponent implements OnInit {
+  private bcvService = inject(BcvService);
+
   tasaInput = 0;
-  tasaActual: TasaBcv | null = null;
   historial: TasaBcv[] = [];
 
-  constructor(private bcvService: BcvService) {}
+  // Almacenamos la referencia directa al Signal computado del servicio
+  tasaActual = this.bcvService.tasaActual;
+
+  constructor() {}
 
   ngOnInit(): void {
     this.cargarDatos();
@@ -36,7 +40,7 @@ export class TasaBcvComponent implements OnInit {
   }
 
   private cargarDatos(): void {
-    this.tasaActual = this.bcvService.getTasaActual();
+    // La tasaActual se actualiza sola por el Signal, solo necesitamos actualizar el historial para la tabla/lista
     this.historial = this.bcvService.getHistorial();
   }
 }

@@ -89,3 +89,84 @@
     background: linear-gradient(135deg, #ffffff 0%, rgba(16, 185, 129, 0.02) 100%);
   }
 }
+
+.tasa-bcv-container {
+  display: flex;
+  gap: 24px;
+  align-items: stretch;
+  width: 100%;
+}
+
+.tasa-bcv-container > div {
+  flex: 1;
+}
+
+.history-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.card-header-flex {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.card-header-flex .icon-small mat-icon {
+  font-size: 32px;
+  height: 32px;
+  width: 32px;
+  color: #10b981;
+}
+
+.history-list-container {
+  flex: 1;
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+  margin-top: 10px;
+}
+
+.history-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.history-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.history-list li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.history-date {
+  color: #64748b;
+  font-size: 14px;
+}
+
+.history-rate {
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 15px;
+}
+
+.empty-state {
+  color: #94a3b8;
+  text-align: center;
+  font-style: italic;
+  margin: 20px 0;
+}
+
