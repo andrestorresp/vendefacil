@@ -17,7 +17,7 @@ import { TasaBcv } from '../../core/models/tasa-bcv.model';
 export class TasaBcvComponent implements OnInit {
   private bcvService = inject(BcvService);
 
-  tasaInput = 0;
+
   historial: TasaBcv[] = [];
 
   // Almacenamos la referencia directa al Signal computado del servicio
@@ -29,13 +29,8 @@ export class TasaBcvComponent implements OnInit {
     this.cargarDatos();
   }
 
-  guardarTasa(): void {
-    if (this.tasaInput <= 0) {
-      return;
-    }
-
-    this.bcvService.guardarTasa(this.tasaInput);
-    this.tasaInput = 0;
+  async actualizarTasa(): Promise<void> {
+    await this.bcvService.actualizarTasaDesdeAPI();
     this.cargarDatos();
   }
 

@@ -10,19 +10,13 @@
       <h3>Tasa de Cambio</h3>
       <p class="card-desc">Monitorea y actualiza la tasa oficial del BCV en tiempo real.</p>
       @if (tasaActual()) {
-        <h2 style="color: #4caf50;">Tasa Actual: {{ tasaActual()?.tasa }} Bs</h2>
+        <h2 style="color: #4caf50">Tasa Actual: {{ tasaActual()?.tasa }} Bs</h2>
       } @else {
-        <h2 style="color: #f44336;">Tasa no configurada</h2>
+        <h2 style="color: #f44336">Tasa no configurada</h2>
       }
     </div>
     <div class="bcv-form">
-      <input
-        type="number"
-        step="0.01"
-        [(ngModel)]="tasaInput"
-        placeholder="Ingrese la tasa BCV"
-      />
-      <button (click)="guardarTasa()">Guardar</button>
+      <button (click)="actualizarTasa()">Actualizar tasa</button>
     </div>
   </div>
 
@@ -40,7 +34,7 @@
         </p>
       </div>
     </div>
-    
+
     <div class="history-list-container">
       @if (historial.length > 0) {
         <ul class="history-list">
