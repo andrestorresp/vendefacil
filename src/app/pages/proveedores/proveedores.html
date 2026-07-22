@@ -6,8 +6,26 @@
 
   <form [formGroup]="proveedorForm" (ngSubmit)="guardarIngreso()" class="form-container">
     
+    <!-- Selector General de Compra -->
+    <div class="dashboard-card provider-card" style="margin-bottom: 20px;">
+      <div class="grid-form" style="grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div class="form-group" style="margin-bottom: 0;">
+          <label>¿Compra a crédito?</label>
+          <select formControlName="compraAlContado" class="input-table">
+            <option value="no">No (Al contado)</option>
+            <option value="si">Sí (Ingresar datos del proveedor)</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 0;">
+          <label>Fecha de Ingreso</label>
+          <input type="date" formControlName="fechaIngreso">
+        </div>
+      </div>
+    </div>
+
     <!-- Tarjeta de Datos del Proveedor -->
-    <div class="dashboard-card provider-card">
+    <div class="dashboard-card provider-card" *ngIf="proveedorForm.get('compraAlContado')?.value === 'si'">
       <h3>Datos del Proveedor</h3>
       
       <div class="grid-form">
@@ -19,11 +37,6 @@
         <div class="form-group">
           <label>Vendedor</label>
           <input type="text" formControlName="vendedor" placeholder="Nombre del vendedor">
-        </div>
-
-        <div class="form-group">
-          <label>Fecha de Ingreso</label>
-          <input type="date" formControlName="fechaIngreso">
         </div>
 
         <div class="form-group">

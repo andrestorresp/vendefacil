@@ -1,1 +1,77 @@
-<p>ventas works!</p>
+<div class="dashboard-container">
+  
+  <!-- Notificaciones Toast -->
+  <div class="toast-notification toast-success" *ngIf="mensajeExito">
+    ✓ {{ mensajeExito }}
+  </div>
+  <div class="toast-notification toast-error" *ngIf="mensajeError">
+    ⚠ {{ mensajeError }}
+  </div>
+
+  <div class="header-section text-center">
+    <h1>Punto de Venta</h1>
+    <p>Busca un producto e ingresa la cantidad vendida al instante.</p>
+  </div>
+
+  <div class="search-container">
+    <div class="search-box">
+      <input 
+        type="text" 
+        [formControl]="searchControl" 
+        placeholder="¿Qué deseas vender hoy? (Ej: Silicon)" 
+        autocomplete="off"
+      >
+      <span class="search-icon">🔍</span>
+    </div>
+  </div>
+
+  <div class="results-container" *ngIf="(resultadosBusqueda$ | async) as resultados">
+    
+    <!-- Mensaje cuando no hay resultados -->
+    <div class="empty-search" *ngIf="searchControl.value && resultados.length === 0">
+      <p>No se encontraron productos que coincidan con "<strong>{{ searchControl.value }}</strong>"</p>
+    </div>
+
+    <!-- Cuadrícula de Resultados -->
+    <div class="results-grid">
+      <div class="result-card" *ngFor="let prod of resultados">
+        
+        <div class="card-header">
+          <h4>{{ prod.nombre | titlecase }}</h4>
+          <span class="badge" [class.badge-direct]="prod.proveedor === 'repuestos mc'">
+            {{ prod.proveedor === 'repuestos mc' ? 'Directa' : prod.proveedor | titlecase }}
+          </span>
+        </div>
+
+        <div class="card-body">
+          <div class="price-info">
+            <span class="price-usd">${{ prod.precioVentaUsd | number:'1.2-2' }}</span>
+            <span class="price-bs">Bs {{ (prod.precioVentaUsd * (tasaActual()?.tasa || 1)) | number:'1.2-2' }}</span>
+          </div>
+          <div class="stock-info">
+            Stock disponible: <strong [class.text-danger]="prod.cantidad === 0">{{ prod.cantidad }}</strong>
+          </div>
+        </div>
+
+        <!-- Botones y Acciones -->
+        <div class="card-actions" *ngIf="prod.cantidad > 0">
+          <div class="counter">
+            <button type="button" (click)="decrementar(prod.id)">-</button>
+            <input type="number" [(ngModel)]="cantidadesVenta[prod.id]" min="0" [max]="prod.cantidad" readonly>
+            <button type="button" (click)="incrementar(prod.id, prod.cantidad)">+</button>
+          </div>
+          
+          <button class="btn-vender" (click)="realizarVenta(prod)">
+            Vender
+          </button>
+        </div>
+        
+        <!-- Mensaje Agotado -->
+        <div class="card-actions out-of-stock" *ngIf="prod.cantidad === 0">
+          <p class="text-danger">Agotado</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

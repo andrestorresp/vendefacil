@@ -39,10 +39,6 @@ export const routes: Routes = [
         path: 'caja',
         loadComponent: () => import('./pages/caja/caja').then((m) => m.CajaComponent),
       },
-      {
-        path: 'compras',
-        loadComponent: () => import('./pages/compras/compras').then((m) => m.ComprasComponent),
-      },
 
       {
         path: 'tasa-bcv',

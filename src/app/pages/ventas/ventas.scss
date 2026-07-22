@@ -1,0 +1,319 @@
+$primary-color: #4f46e5;
+$bg-color: #f8fafc;
+$card-bg: rgba(255, 255, 255, 0.85);
+$text-main: #1e293b;
+$text-muted: #64748b;
+$border-color: #e2e8f0;
+$danger-color: #ef4444;
+$success-color: #10b981;
+
+.dashboard-container {
+  padding: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.header-section {
+  margin-bottom: 3rem;
+  
+  h1 {
+    font-size: 2.8rem;
+    color: $text-main;
+    margin-bottom: 0.5rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+  }
+  
+  p {
+    color: $text-muted;
+    font-size: 1.2rem;
+  }
+}
+
+// Buscador
+.search-container {
+  margin-bottom: 3rem;
+}
+
+.search-box {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  
+  input {
+    width: 100%;
+    padding: 1.5rem 3.5rem 1.5rem 1.5rem;
+    font-size: 1.25rem;
+    color: $text-main;
+    background: #ffffff;
+    border: 2px solid $border-color;
+    border-radius: 20px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-sizing: border-box;
+
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+      box-shadow: 0 15px 30px -5px rgba($primary-color, 0.25);
+      transform: translateY(-2px);
+    }
+
+    &::placeholder {
+      color: #94a3b8;
+    }
+  }
+
+  .search-icon {
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+}
+
+// Resultados
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.result-card {
+  background: $card-bg;
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: slideUp 0.3s ease-out;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.1);
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid $border-color;
+    padding-bottom: 1rem;
+
+    h4 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: $text-main;
+      margin: 0;
+      word-break: break-word;
+      line-height: 1.2;
+    }
+
+    .badge {
+      font-size: 0.7rem;
+      background: #e2e8f0;
+      color: #475569;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      font-weight: 700;
+      white-space: nowrap;
+      margin-left: 10px;
+    }
+
+    .badge-direct {
+      background: rgba($success-color, 0.15);
+      color: darken($success-color, 10%);
+    }
+  }
+
+  .card-body {
+    flex-grow: 1;
+    margin-bottom: 1.25rem;
+
+    .price-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      margin-bottom: 1rem;
+
+      .price-usd {
+        font-size: 1.75rem;
+        font-weight: 800;
+        color: #059669;
+        line-height: 1;
+      }
+
+      .price-bs {
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: $primary-color;
+      }
+    }
+
+    .stock-info {
+      font-size: 0.95rem;
+      color: $text-muted;
+
+      strong {
+        color: $text-main;
+      }
+    }
+  }
+
+  .card-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+
+    .counter {
+      display: flex;
+      align-items: center;
+      background: #f1f5f9;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid $border-color;
+
+      button {
+        background: transparent;
+        border: none;
+        width: 36px;
+        height: 40px;
+        font-size: 1.4rem;
+        color: $text-main;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.15s ease;
+
+        &:hover {
+          background: #e2e8f0;
+        }
+      }
+
+      input {
+        width: 44px;
+        text-align: center;
+        border: none;
+        background: transparent;
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: $text-main;
+        
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+        -moz-appearance: textfield;
+      }
+    }
+
+    .btn-vender {
+      flex-grow: 1;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      font-weight: 600;
+      background-color: $primary-color;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 6px -1px rgba($primary-color, 0.4);
+
+      &:hover {
+        background-color: darken($primary-color, 5%);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 8px -1px rgba($primary-color, 0.5);
+      }
+
+      &:active {
+        transform: translateY(1px);
+        box-shadow: 0 2px 4px -1px rgba($primary-color, 0.4);
+      }
+    }
+  }
+
+  .out-of-stock {
+    justify-content: center;
+    background: rgba($danger-color, 0.1);
+    padding: 0.75rem;
+    border-radius: 10px;
+
+    .text-danger {
+      color: $danger-color;
+      font-weight: 800;
+      margin: 0;
+      font-size: 1.1rem;
+    }
+  }
+}
+
+.empty-search {
+  text-align: center;
+  padding: 3rem;
+  color: $text-muted;
+  background: $card-bg;
+  border-radius: 16px;
+  border: 2px dashed $border-color;
+  font-size: 1.15rem;
+  animation: fadeIn 0.3s ease;
+}
+
+.text-danger {
+  color: $danger-color !important;
+}
+
+// Notificaciones Toast
+.toast-notification {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
+  z-index: 1000;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+  animation: slideDownFade 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.toast-success {
+  background-color: $success-color;
+}
+
+.toast-error {
+  background-color: $danger-color;
+}
+
+@keyframes slideDownFade {
+  from { opacity: 0; transform: translate(-50%, -30px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

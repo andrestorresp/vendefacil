@@ -1,0 +1,167 @@
+// Importar variables y mixins si existen (asumiremos colores base similares a proveedores)
+$primary-color: #4f46e5;
+$bg-color: #f8fafc;
+$card-bg: rgba(255, 255, 255, 0.85);
+$text-main: #1e293b;
+$text-muted: #64748b;
+$border-color: #e2e8f0;
+$danger-color: #ef4444;
+
+.dashboard-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.header-section {
+  margin-bottom: 2rem;
+  
+  h1 {
+    font-size: 2rem;
+    color: $text-main;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+  
+  p {
+    color: $text-muted;
+    font-size: 1.1rem;
+  }
+}
+
+.dashboard-card {
+  background: $card-bg;
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  margin-bottom: 2rem;
+}
+
+.products-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid $border-color;
+
+  h3 {
+    font-size: 1.25rem;
+    color: $text-main;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .tasa-info {
+    color: $text-muted;
+    font-size: 0.95rem;
+    background: rgba($primary-color, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    margin: 0;
+
+    strong {
+      color: $primary-color;
+    }
+  }
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.products-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+
+  th {
+    text-align: left;
+    padding: 0.75rem 1rem;
+    color: $text-muted;
+    font-weight: 600;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid $border-color;
+  }
+
+  td {
+    padding: 1rem;
+    background: #ffffff;
+    color: $text-main;
+    font-size: 0.95rem;
+    vertical-align: middle;
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+
+    &:first-child {
+      border-left: 1px solid transparent;
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
+    }
+
+    &:last-child {
+      border-right: 1px solid transparent;
+      border-top-right-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
+  }
+
+  tr:hover td {
+    background: #f1f5f9;
+    cursor: default;
+    transition: background 0.2s ease;
+  }
+}
+
+// Utilidades de texto
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+
+.empty-state {
+  padding: 3rem !important;
+  color: $text-muted !important;
+  font-style: italic;
+  background: transparent !important;
+}
+
+// Badges
+.badge {
+  display: inline-block;
+  padding: 0.35em 0.65em;
+  font-size: 0.75em;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.375rem;
+  background-color: #64748b; // Default provider color
+}
+
+.badge-direct {
+  background-color: #10b981; // Green for direct cash purchase
+}
+
+.price-highlight {
+  font-weight: 700;
+  color: #059669; // Verde para dólares
+  font-size: 1.05rem !important;
+}
+
+.price-highlight-bs {
+  font-weight: 700;
+  color: #4f46e5; // Color primario (azul/morado) para bolívares para diferenciarlo
+  font-size: 1.05rem !important;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

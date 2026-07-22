@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { BcvService } from '../../core/services/bcv';
+import { InventarioService } from '../../core/services/inventario.service';
 
 @Component({
   selector: 'app-proveedores',
@@ -13,6 +14,7 @@ import { BcvService } from '../../core/services/bcv';
 export class ProveedoresComponent implements OnInit {
   private fb = inject(FormBuilder);
   public bcvService = inject(BcvService);
+  public inventarioService = inject(InventarioService);
   
   // Obtenemos la tasa actual reactivamente desde el servicio
   tasaActual = this.bcvService.tasaActual;
@@ -23,7 +25,8 @@ export class ProveedoresComponent implements OnInit {
     this.proveedorForm = this.fb.group({
       compania: ['', Validators.required],
       vendedor: ['', Validators.required],
-      fechaIngreso: ['', Validators.required],
+      compraAlContado: ['no'],
+      fechaIngreso: [new Date().toISOString().split('T')[0], Validators.required],
       fechaCredito: [''],
       fechaVencimiento: [''],
       productos: this.fb.array([])
@@ -33,6 +36,34 @@ export class ProveedoresComponent implements OnInit {
   ngOnInit(): void {
     // Inicializar con al menos una fila en blanco
     this.agregarProducto();
+
+    // Escuchar cambios en el selector
+    this.proveedorForm.get('compraAlContado')?.valueChanges.subscribe(val => {
+      this.actualizarDatosProveedor(val);
+    });
+
+    // Inicializar el estado de los datos del proveedor
+    this.actualizarDatosProveedor(this.proveedorForm.get('compraAlContado')?.value);
+  }
+
+  private actualizarDatosProveedor(val: string) {
+    if (val === 'no') {
+      // Al contado
+      this.proveedorForm.patchValue({
+        compania: 'repuestos mc',
+        vendedor: 'Sin vendedor',
+        fechaCredito: '',
+        fechaVencimiento: ''
+      });
+    } else {
+      // A crédito: reiniciar para obligar al usuario a llenarlos
+      this.proveedorForm.patchValue({
+        compania: '',
+        vendedor: '',
+        fechaCredito: '',
+        fechaVencimiento: ''
+      });
+    }
   }
 
   // Getter para facilitar el acceso al FormArray
@@ -71,7 +102,14 @@ export class ProveedoresComponent implements OnInit {
   guardarIngreso() {
     if (this.proveedorForm.valid) {
       console.log('Datos a guardar:', this.proveedorForm.value);
-      alert('Ingreso validado correctamente. (Próximamente se enviará al Backend Python)');
+      
+      // Enviar datos al servicio de inventario
+      this.inventarioService.registrarIngreso(
+        this.proveedorForm.value, 
+        this.productos.value
+      );
+
+      alert('Ingreso registrado con éxito y añadido al inventario. (Próximamente Backend Python)');
       
       // Reiniciar formulario para una nueva entrada
       this.proveedorForm.reset();

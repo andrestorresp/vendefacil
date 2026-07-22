@@ -1,1 +1,41 @@
-<p>productos works!</p>
+<div class="dashboard-container">
+  <div class="header-section">
+    <h1>Inventario</h1>
+    <p>Visualiza y gestiona la mercancía ingresada al sistema.</p>
+  </div>
+
+  <div class="dashboard-card products-card">
+    <div class="products-header">
+      <h3>Lista de Inventario</h3>
+      <p class="tasa-info">
+        Total de Items: <strong>{{ (inventario$ | async)?.length || 0 }}</strong>
+      </p>
+    </div>
+
+    <div class="table-responsive">
+      <table class="products-table">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th class="text-center">Cant.</th>
+            <th class="text-right">Precio ($)</th>
+            <th class="text-right">Precio (Bs)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="(inventario$ | async)?.length === 0">
+            <td colspan="6" class="text-center empty-state">
+              No hay productos en el inventario. Ingresa nueva mercancía en la pestaña "Proveedores".
+            </td>
+          </tr>
+          <tr *ngFor="let prod of inventario$ | async">
+            <td><strong>{{ prod.nombre | titlecase }}</strong></td>
+            <td class="text-center"><strong>{{ prod.cantidad }}</strong></td>
+            <td class="text-right price-highlight">${{ prod.precioVentaUsd | number:'1.2-2' }}</td>
+            <td class="text-right price-highlight-bs">Bs {{ (prod.precioVentaUsd * (tasaActual()?.tasa || 1)) | number:'1.2-2' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
