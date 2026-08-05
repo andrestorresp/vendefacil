@@ -20,44 +20,77 @@ export class InventarioService {
   private inventarioSubject = new BehaviorSubject<ProductoInventario[]>([]);
   public inventario$ = this.inventarioSubject.asObservable();
 
+  // Nuevo Subject para guardar las facturas/ingresos por separado para los reportes
+  private facturasSubject = new BehaviorSubject<any[]>([]);
+  public facturas$ = this.facturasSubject.asObservable();
+
   constructor() {
     // Si quisieramos guardar en localStorage para que no se borre al recargar:
     const dataGuardada = localStorage.getItem('inventario_vendefacil');
     if (dataGuardada) {
       this.inventarioSubject.next(JSON.parse(dataGuardada));
     }
+
+    const facturasGuardadas = localStorage.getItem('facturas_compra_vendefacil');
+    if (facturasGuardadas) {
+      this.facturasSubject.next(JSON.parse(facturasGuardadas));
+    }
   }
 
   registrarIngreso(proveedorData: any, productosData: any[]) {
-    const inventarioActual = this.inventarioSubject.value;
-    
-    // Transformar los productos agregando la info del proveedor y cálculos
-    const nuevosProductos: ProductoInventario[] = productosData.map(prod => {
-      const costo = prod.costoUsd || 0;
-      const margen = prod.margenGanancia || 0;
-      const precioVenta = costo + (costo * (margen / 100));
+    const inventarioActual = [...this.inventarioSubject.value];
+    const facturasActuales = [...this.facturasSubject.value];
 
-      // Si es al contado (repuestos mc), podríamos mostrar eso o "Compra directa"
-      // Según la lógica anterior, el form se llena con "repuestos mc"
-      const nombreProveedor = proveedorData.compania ? proveedorData.compania : 'Sin Proveedor';
+    // 1. Guardar la factura/ingreso completa de forma independiente para los reportes
+    const nuevaFactura = {
+      id: crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2, 9),
+      proveedorData,
+      productosData,
+      fechaRegistro: new Date().toISOString()
+    };
+    facturasActuales.push(nuevaFactura);
+    this.facturasSubject.next(facturasActuales);
+    localStorage.setItem('facturas_compra_vendefacil', JSON.stringify(facturasActuales));
 
-      return {
-        id: crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2, 9),
-        nombre: prod.nombre,
-        proveedor: nombreProveedor,
-        fechaIngreso: proveedorData.fechaIngreso,
-        cantidad: prod.cantidad,
-        costoUsd: costo,
-        margenGanancia: margen,
-        precioVentaUsd: precioVenta
-      };
+    // 2. Procesar los productos para agregarlos al inventario o sumar cantidades
+    const nombreProveedor = proveedorData.compania ? proveedorData.compania : 'Sin Proveedor';
+
+    productosData.forEach(prod => {
+      // Buscar si ya existe un producto con el mismo nombre y proveedor
+      const indexExistente = inventarioActual.findIndex(
+        p => p.nombre.toLowerCase() === prod.nombre.toLowerCase() && 
+             p.proveedor.toLowerCase() === nombreProveedor.toLowerCase()
+      );
+
+      if (indexExistente !== -1) {
+        // Ya existe, sumamos la cantidad
+        inventarioActual[indexExistente] = {
+          ...inventarioActual[indexExistente],
+          cantidad: inventarioActual[indexExistente].cantidad + prod.cantidad,
+          // Opcionalmente se podrían actualizar costo y precio si variaron, 
+          // pero por ahora priorizamos sumar la cantidad.
+        };
+      } else {
+        // No existe, creamos el producto en el inventario
+        const costo = prod.costoUsd || 0;
+        const margen = prod.margenGanancia || 0;
+        const precioVenta = costo + (costo * (margen / 100));
+
+        inventarioActual.push({
+          id: crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2, 9),
+          nombre: prod.nombre,
+          proveedor: nombreProveedor,
+          fechaIngreso: proveedorData.fechaIngreso,
+          cantidad: prod.cantidad,
+          costoUsd: costo,
+          margenGanancia: margen,
+          precioVentaUsd: precioVenta
+        });
+      }
     });
 
-    const nuevoInventario = [...inventarioActual, ...nuevosProductos];
-    this.inventarioSubject.next(nuevoInventario);
-    
-    // Opcional: Guardar en localStorage para pruebas sin backend
-    localStorage.setItem('inventario_vendefacil', JSON.stringify(nuevoInventario));
+    this.inventarioSubject.next(inventarioActual);
+    localStorage.setItem('inventario_vendefacil', JSON.stringify(inventarioActual));
   }
 
   eliminarProducto(id: string) {

@@ -15,7 +15,7 @@ export class ProveedoresComponent implements OnInit {
   private fb = inject(FormBuilder);
   public bcvService = inject(BcvService);
   public inventarioService = inject(InventarioService);
-  
+
   // Obtenemos la tasa actual reactivamente desde el servicio
   tasaActual = this.bcvService.tasaActual;
 
@@ -29,7 +29,7 @@ export class ProveedoresComponent implements OnInit {
       fechaIngreso: [new Date().toISOString().split('T')[0], Validators.required],
       fechaCredito: [''],
       fechaVencimiento: [''],
-      productos: this.fb.array([])
+      productos: this.fb.array([]),
     });
   }
 
@@ -38,7 +38,7 @@ export class ProveedoresComponent implements OnInit {
     this.agregarProducto();
 
     // Escuchar cambios en el selector
-    this.proveedorForm.get('compraAlContado')?.valueChanges.subscribe(val => {
+    this.proveedorForm.get('compraAlContado')?.valueChanges.subscribe((val) => {
       this.actualizarDatosProveedor(val);
     });
 
@@ -53,7 +53,7 @@ export class ProveedoresComponent implements OnInit {
         compania: 'repuestos mc',
         vendedor: 'Sin vendedor',
         fechaCredito: '',
-        fechaVencimiento: ''
+        fechaVencimiento: '',
       });
     } else {
       // A crédito: reiniciar para obligar al usuario a llenarlos
@@ -61,7 +61,7 @@ export class ProveedoresComponent implements OnInit {
         compania: '',
         vendedor: '',
         fechaCredito: '',
-        fechaVencimiento: ''
+        fechaVencimiento: '',
       });
     }
   }
@@ -78,7 +78,7 @@ export class ProveedoresComponent implements OnInit {
       cantidad: [1, [Validators.required, Validators.min(1)]],
       costoUsd: [0, [Validators.required, Validators.min(0)]],
       // Se añade nuevamente el margen de ganancia a petición del usuario
-      margenGanancia: [30, [Validators.required, Validators.min(0)]]
+      margenGanancia: [30, [Validators.required, Validators.min(0)]],
     });
     this.productos.push(productoForm);
   }
@@ -102,15 +102,12 @@ export class ProveedoresComponent implements OnInit {
   guardarIngreso() {
     if (this.proveedorForm.valid) {
       console.log('Datos a guardar:', this.proveedorForm.value);
-      
-      // Enviar datos al servicio de inventario
-      this.inventarioService.registrarIngreso(
-        this.proveedorForm.value, 
-        this.productos.value
-      );
 
-      alert('Ingreso registrado con éxito y añadido al inventario. (Próximamente Backend Python)');
-      
+      // Enviar datos al servicio de inventario
+      this.inventarioService.registrarIngreso(this.proveedorForm.value, this.productos.value);
+
+      alert('Ingreso registrado con éxito y añadido al inventario.');
+
       // Reiniciar formulario para una nueva entrada
       this.proveedorForm.reset();
       this.productos.clear();
